@@ -8,7 +8,6 @@
             $scope.loggedIn = false;
         }
 
-
         $scope.login = function(){
             $http.post('api/users/login',$scope.user).success(function(res){
                 localStorage.setItem('user-data',JSON.stringify(res));

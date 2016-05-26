@@ -13,3 +13,19 @@
         </ul>
     </div>
 </nav>
+
+<div class="container-fluid text-center">
+    <div class="row">
+       <h1>Profile</h1>
+        <div class="col-sm-4 col-sm-offset-4">
+           <form ng-submit='changeInfo()'>
+               <label>Username:</label><input type="text" class="form-control" ng-model='user.username'>
+               <label>Password:</label><input type="password" class="form-control" ng-model='user.password'>
+               <label>Email:</label><input type="text" class="form-control" ng-model='user.email'>
+
+               <button type="submit" class="btn btn-primary">Change info</button>
+           </form>
+
+        </div>
+    </div>
+</div>

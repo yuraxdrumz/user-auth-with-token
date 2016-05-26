@@ -18,6 +18,8 @@ app.get('/',function(req, res){
 //users
 app.post('/api/users/register', UserCtrl.register)
 app.post('/api/users/login', UserCtrl.login)
+app.post('/api/users/update', UserCtrl.update)
+
 
 app.listen(port,function(){
     console.log('Listening on port ' + port);
