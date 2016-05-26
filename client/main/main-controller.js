@@ -1,6 +1,6 @@
 (function(){
     angular.module('myApp')
-    .controller('mainController',['$scope','$http',function($scope,$http){
+    .controller('mainController',['$scope','$http','$location',function($scope,$http,$location){
 
         if(localStorage['user-data']){
             $scope.loggedIn = true
@@ -19,6 +19,12 @@
             })
         }
 
+        $scope.logout = function(){
+            localStorage.clear();
+            $scope.loggedIn = false;
+            $location.path('/')
+
+        }
 
     }])
 })()

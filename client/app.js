@@ -14,5 +14,10 @@
             templateUrl:'client/register/register.html',
             controller:'regController'
         })
+        .state('profile',{
+            url:'/profile',
+            templateUrl:'client/profile/profile.html',
+            controller:'profileController'
+        })
     }])
 })()
