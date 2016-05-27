@@ -16,6 +16,7 @@
             $http.post('api/users/update',$scope.user).success(function(res){
                 $scope.user = res;
                 localStorage.setItem('user-data',JSON.stringify($scope.user))
+                $location.path('/')
             }).error(function(err){
                 console.log(err)
             })

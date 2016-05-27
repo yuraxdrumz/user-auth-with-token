@@ -24,25 +24,17 @@ module.exports.update = function(req, res){
     console.log(req.body)
     var username = req.body.username;
     var userId = req.body._id;
-    var password = req.body.password;
-    var email = req.body.email;
+    var email = req.body.email
 
     User.findById(userId,function(err, result){
         var user = result;
         user.username = username;
-        user.password = password;
-        user.email = email;
-        user.save(function(err){
-            if(err){
-                res.json({status:500})
-            }else{
-                res.json({
-                    username:username,
-                    password:password,
-                    email:email,
-                    id:userId
-                })
-            }
-        });
+        user.email = email
+        user.save();
+        res.json({
+            username:user.username,
+            _id:user._id,
+            email:user.email
+        })
     });
 }
