@@ -1,6 +1,6 @@
 (function(){
     angular.module('myApp')
-    .controller('mainController',['$scope','$http','$location',function($scope,$http,$location){
+    .controller('mainController',['$scope','$http','$location','users',function($scope,$http,$location,users){
 
         if(localStorage['user-data']){
             $scope.loggedIn = true
@@ -9,14 +9,12 @@
         }
 
         $scope.login = function(){
-            $http.post('api/users/login',$scope.user).success(function(res){
-                localStorage.setItem('user-data',JSON.stringify(res));
+            users.addUser($scope.user).then(function(res){
+                localStorage.setItem('user-data',JSON.stringify(res))
                 $scope.loggedIn = true;
-
-            }).error(function(err){
-                console.log(err)
             })
         }
+
 
         $scope.logout = function(){
             localStorage.clear();

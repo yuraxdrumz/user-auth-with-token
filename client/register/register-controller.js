@@ -6,11 +6,9 @@
 
         $scope.register = function(){
 
-            $http.post('api/users/register',$scope.user).success(function(res){
+            $http.post('api/users/register',$scope.user).then(function(res){
                 console.log('user created');
                 $location.path('/')
-            }).error(function(err){
-                console.log(err)
             })
         }
     }])
