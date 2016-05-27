@@ -20,6 +20,7 @@
             controller:'profileController'
         })
 
+
     }])
     .directive('nav',function(){
         return{
@@ -27,4 +28,5 @@
             templateUrl:'client/navbar/nav.html'
         }
     })
+
 })()

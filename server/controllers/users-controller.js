@@ -21,6 +21,7 @@ module.exports.login = function(req, res){
 }
 
 module.exports.update = function(req, res){
+
     var username = req.body.username;
     var userId = req.body._id;
     var email = req.body.email
