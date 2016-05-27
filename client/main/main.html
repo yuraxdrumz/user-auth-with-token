@@ -1,0 +1,21 @@
+
+<nav class="navbar navbar-inverse"></nav>
+<div class="container-fluid text-center" ng-show='!loggedIn'>
+    <div class="row">
+       <h1>User-Login</h1>
+        <div class="col-sm-4 col-sm-offset-4">
+           <form ng-submit='login()'>
+               <label>Username:</label><input type="text" class="form-control" ng-model='user.username'>
+               <label>Password:</label><input type="password" class="form-control" ng-model='user.password'>
+
+               <button type="submit" class="btn btn-primary">Login</button> or <button type="button" class="btn"><a ui-sref='register'>Register</a></button>
+           </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid text-center" ng-show='loggedIn'>
+    tweets will go here
+</div>
+
