@@ -1,0 +1,9 @@
+(function(){
+    angular.module('myApp')
+    .directive('nav',function(){
+        return{
+            restrict:'E',
+            templateUrl:'client/navbar/nav.html'
+        }
+    })
+})()
