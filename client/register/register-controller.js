@@ -1,13 +1,12 @@
 (function(){
     angular.module('myApp')
-    .controller('regController',['$scope','$http','$location',function($scope,$http,$location){
+    .controller('regController',['$scope','$http','$location','users',function($scope,$http,$location,users){
 
         localStorage.clear()
 
         $scope.register = function(){
 
-            $http.post('api/users/register',$scope.user).then(function(res){
-                console.log('user created');
+            users.registerUser($scope.user).then(function(res){
                 $location.path('/')
             })
         }
