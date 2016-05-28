@@ -1,6 +1,7 @@
 (function(){
     angular.module('myApp')
-    .controller('regController',['$scope','$http','$location','users',function($scope,$http,$location,users){
+    .controller('regController',['$scope','$http','$location','users','Upload',function($scope,$http,$location,users,Upload){
+
 
         localStorage.clear()
 

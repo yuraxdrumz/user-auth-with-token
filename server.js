@@ -1,15 +1,17 @@
-var express    = require('express');
-var app        = express();
-var mongoose   = require('mongoose');
-var bodyParser = require('body-parser');
-var port       = process.env.PORT || 3000;
-var UserCtrl   = require('./server/controllers/users-controller')
+var express              = require('express');
+var app                  = express();
+var mongoose             = require('mongoose');
+var bodyParser           = require('body-parser');
+var port                 = process.env.PORT || 3000;
+var UserCtrl             = require('./server/controllers/users-controller');
+var multiparty           = require('connect-multiparty');
+var multipartyMiddleware = multiparty();
 
 mongoose.connect('mongodb://localhost:27017/user-login');
 
 app.use(bodyParser.json());
 app.use('/client',express.static(__dirname + '/client'));
-
+app.use('/node_modules',express.static(__dirname + '/node_modules'))
 //main page
 app.get('/',function(req, res){
     res.sendFile(__dirname + '/index.html')
