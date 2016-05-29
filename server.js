@@ -12,6 +12,7 @@ mongoose.connect('mongodb://localhost:27017/user-login');
 app.use(bodyParser.json());
 app.use('/client',express.static(__dirname + '/client'));
 app.use('/node_modules',express.static(__dirname + '/node_modules'))
+app.use('/uploads', express.static(__dirname + '/uploads'))
 //main page
 app.get('/',function(req, res){
     res.sendFile(__dirname + '/index.html')
