@@ -5,16 +5,22 @@
             addUser:function(user){
                 return $http.post('api/users/login',user).then(function(res){
                     return res.data
+                },function(err){
+                    throw err.status + err.data
                 })
             },
             registerUser:function(user){
                 return $http.post('/api/users/register',user).then(function(res){
-                    return console.log('User ' + user.username + ' was created')
+                    return console.log('Username ' + res.data.username + ' was created')
+                },function(err){
+                    throw err.status + err.data
                 })
             },
             updateUser:function(user){
                 return $http.post('api/users/update',user).then(function(res){
                     return res.data
+                },function(err){
+                    throw err.status + err.data
                 })
             }
         }

@@ -1,5 +1,5 @@
 (function(){
-    angular.module('myApp',['ui.router','ngFileUpload'])
+    angular.module('myApp',['ui.router','ngFileUpload','ngMessages'])
     .config(['$stateProvider','$urlRouterProvider',function($stateProvider,$urlRouterProvider){
 
         $urlRouterProvider.otherwise('/');

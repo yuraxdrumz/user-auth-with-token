@@ -1,5 +1,7 @@
 var mongoose = require('mongoose')
 var User = require('../models/users')
+var path = require('path')
+var fs = require('fs-extra')
 
 module.exports.register = function(req, res){
     var user = new User(req.body) ;
@@ -14,7 +16,8 @@ module.exports.login = function(req, res){
             res.json({
                 _id:foundUser._id,
                 email:foundUser.email,
-                username:foundUser.username
+                username:foundUser.username,
+                image:foundUser.image
             });
         }
     })
@@ -37,4 +40,35 @@ module.exports.update = function(req, res){
             email:user.email
         })
     });
+}
+
+module.exports.profilePic = function(req, res){
+    var file = req.files.file;
+    var username = req.body.username;
+    var email = req.body.email;
+    var uploadDate = new Date();
+    uploadDate = uploadDate.toDateString();
+
+    User.find({$and:[{username:username},{email:email}]},function(err, result){
+        var foundUser = result[0]
+        var savePath = '/uploads/' + foundUser._id  + uploadDate + file.name;
+        var tempPath = file.path
+        var targetPath = path.join(__dirname,"../../uploads/" + foundUser._id + uploadDate + file.name);
+
+        fs.rename(tempPath,targetPath,function(err){
+            if(err){
+                console.log(err)
+            }else{
+                foundUser.image = savePath
+                foundUser.save(function(err){
+                    if(err){
+                        res.json({status:500})
+                    }else{
+                        res.json({status:200})
+                    }
+                });
+            }
+        })
+    })
+
 }

@@ -21,7 +21,7 @@ app.get('/',function(req, res){
 app.post('/api/users/register', UserCtrl.register)
 app.post('/api/users/login', UserCtrl.login)
 app.post('/api/users/update', UserCtrl.update)
-
+app.post('/api/profile/editPhoto',multipartyMiddleware,UserCtrl.profilePic)
 
 app.listen(port,function(){
     console.log('Listening on port ' + port);

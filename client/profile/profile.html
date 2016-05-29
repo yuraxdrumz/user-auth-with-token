@@ -9,7 +9,7 @@
            <form ng-submit='changeInfo()'>
                <label>Username:</label><input type="text" class="form-control" ng-model='user.username'>
                <label>Email:</label><input type="text" class="form-control" ng-model='user.email'>
-
+                <img ng-src='{{user.image}}' class="img-responsive">
                <button type="submit" class="btn btn-primary">Change info</button>
            </form>
 
