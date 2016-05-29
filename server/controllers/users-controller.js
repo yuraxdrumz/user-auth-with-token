@@ -6,7 +6,11 @@ var fs = require('fs-extra')
 module.exports.register = function(req, res){
     var user = new User(req.body) ;
     user.save();
-    res.json(req.body)
+    res.json({
+        userId:user._id,
+        username:user.username,
+        email:user.email
+    })
 }
 
 module.exports.login = function(req, res){
@@ -44,23 +48,22 @@ module.exports.update = function(req, res){
 
 module.exports.profilePic = function(req, res){
     var file = req.files.file;
-    var username = req.body.username;
-    var email = req.body.email;
+    var userId = req.body.userId
     var uploadDate = new Date();
     uploadDate = uploadDate.toDateString();
 
-    User.find({$and:[{username:username},{email:email}]},function(err, result){
-        var foundUser = result[0]
-        var savePath = '/uploads/' + foundUser._id  + uploadDate + file.name;
+    User.findById(userId,function(err, result){
+        var user = result
+        var savePath = '/uploads/' + user._id  + uploadDate + file.name;
         var tempPath = file.path
-        var targetPath = path.join(__dirname,"../../uploads/" + foundUser._id + uploadDate + file.name);
+        var targetPath = path.join(__dirname,"../../uploads/" + user._id + uploadDate + file.name);
 
         fs.rename(tempPath,targetPath,function(err){
             if(err){
                 console.log(err)
             }else{
-                foundUser.image = savePath
-                foundUser.save(function(err){
+                user.image = savePath
+                user.save(function(err){
                     if(err){
                         res.json({status:500})
                     }else{

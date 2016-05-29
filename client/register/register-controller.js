@@ -12,14 +12,12 @@
 
         localStorage.clear()
 
-        $scope.upload = function(file){
+        $scope.upload = function(file,userId){
             if(file){
                 Upload.upload({
                     url:'/api/profile/editPhoto',
                     method:'POST',
-                    data: {username:$scope.user.username,
-                           email:$scope.user.email
-                          },
+                    data: {userId:userId},
                     file: file
                 }).progress(function(event){
                     console.log('Firing!')
@@ -33,8 +31,10 @@
         };
 
         $scope.register = function(){
-            users.registerUser($scope.user)
-            $scope.upload($scope.file)
+            users.registerUser($scope.user).then(function(res){
+                $scope.upload($scope.file,res)
+            })
+
 
 
         }

@@ -11,7 +11,7 @@
             },
             registerUser:function(user){
                 return $http.post('/api/users/register',user).then(function(res){
-                    return console.log('Username ' + res.data.username + ' was created')
+                    return res.data.userId
                 },function(err){
                     throw err.status + err.data
                 })
