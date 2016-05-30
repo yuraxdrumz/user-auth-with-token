@@ -6,6 +6,7 @@ var port                 = process.env.PORT || 3000;
 var UserCtrl             = require('./server/controllers/users-controller');
 var multiparty           = require('connect-multiparty');
 var multipartyMiddleware = multiparty();
+var tweetController      = require('./server/controllers/tweet-controller')
 
 mongoose.connect('mongodb://localhost:27017/user-login');
 
@@ -24,6 +25,12 @@ app.post('/api/users/register', UserCtrl.register)
 app.post('/api/users/login', UserCtrl.login)
 app.post('/api/users/update', UserCtrl.update)
 app.post('/api/profile/editPhoto',multipartyMiddleware,UserCtrl.profilePic)
+
+
+//tweets
+app.post('/api/tweet/post', tweetController.postTweet)
+app.get('/api/tweet/all-tweets', tweetController.getAllTweets)
+
 
 app.listen(port,function(){
     console.log('Listening on port ' + port);
