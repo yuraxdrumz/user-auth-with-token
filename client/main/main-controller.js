@@ -2,12 +2,15 @@
     angular.module('myApp')
     .controller('mainController',['$scope','$http','$location','users','tweet',function($scope,$http,$location,users,tweet){
 
+        tweet.getAllTweets().then(function(res){
+            $scope.tweets = res
+        })
+
+
         if(localStorage['user-data']){
             $scope.loggedIn = true
             $scope.user = JSON.parse(localStorage['user-data'])
-            tweet.getAllTweets().then(function(res){
-                $scope.tweets = res
-            })
+
         }else{
             $scope.loggedIn = false;
         }
@@ -16,6 +19,7 @@
             users.addUser($scope.user).then(function(res){
                 localStorage.setItem('user-data',JSON.stringify(res))
                 $scope.loggedIn = true;
+                $location.path('/profile')
             })
         }
 
@@ -23,7 +27,7 @@
         $scope.logout = function(){
             localStorage.clear();
             $scope.loggedIn = false;
-            $location.path('/')
+            $scope.user = null
 
         }
 

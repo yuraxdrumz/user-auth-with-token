@@ -13,8 +13,9 @@
 
         $scope.register = function(){
             users.registerUser($scope.user).then(function(res){
-                users.uploadPhoto($scope.file,res)
-                $location.path('/')
+                users.uploadPhoto($scope.file,res).then(function(res){
+                    $location.path('/')
+                })
             })
 
 

@@ -68,7 +68,7 @@ module.exports.profilePic = function(req, res){
                     if(err){
                         res.json({status:500})
                     }else{
-                        res.json({status:200})
+                        res.json(user.image)
                     }
                 });
             }

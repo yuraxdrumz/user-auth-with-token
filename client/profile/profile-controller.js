@@ -9,16 +9,23 @@
         $scope.logout = function(){
             localStorage.clear();
             $scope.loggedIn = false;
-            $location.path('/')
 
         }
         $scope.changeInfo = function(){
             users.updateUser($scope.user).then(function(res){
                 $scope.user = res;
                 localStorage.setItem('user-data',JSON.stringify($scope.user))
-                $location.path('/')
+
+                if($scope.file){
+                    users.uploadPhoto($scope.file,$scope.user._id).then(function(res){
+                        $scope.user.image = res
+                        localStorage.setItem('user-data',JSON.stringify($scope.user))
+                    })
+                }
             })
 
         }
+
+
     }])
 })()

@@ -24,17 +24,17 @@
                 })
             },
             uploadPhoto:function(file,userId){
-                Upload.upload({
+                return Upload.upload({
                     url:'/api/profile/editPhoto',
                     method:"POST",
                     data:{userId:userId},
                     file:file
-                }).progress(function(res){
-                    console.log('firing')
-                }).success(function(res){
-                    console.log(res)
-                })
+                    }).then(function(res){
+                        return res.data
+                    },function(err){
+                        throw err.status + err.data
+                    })
+                }
             }
-        }
     }])
 })()
