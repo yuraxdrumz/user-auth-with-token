@@ -41,7 +41,8 @@ module.exports.update = function(req, res){
         res.json({
             username:user.username,
             _id:user._id,
-            email:user.email
+            email:user.email,
+            image:user.image
         })
     });
 }
