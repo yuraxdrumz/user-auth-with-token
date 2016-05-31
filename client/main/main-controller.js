@@ -47,9 +47,15 @@
                     })
                 }
         }
+
         $scope.like = function(tweetId,userId){
             tweet.likeTweet(tweetId,userId).then(function(res){
-                $scope.tweets = res;
+                if(res === 'liked'){
+                    return
+                }else{
+                    $scope.tweets = res;
+                }
+
             })
         }
 

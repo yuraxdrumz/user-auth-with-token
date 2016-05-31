@@ -19,7 +19,7 @@
 <div class="container-fluid" ng-show='loggedIn'>
 
   <div class="col-sm-8 col-sm-offset-2">
-   <div class="row">
+   <div class="row text-center">
       <h4>Press <kbd>Enter</kbd> to send tweet</h4>
        <textarea ng-model='newTweet' ng-keypress='sendTweet(event)' class="form-control" placeholder="write your tweet and press enter">
        </textarea>
@@ -45,7 +45,8 @@
 
                         <span class="pull-right">
                            <strong>Likes:{{tweet.likes}}</strong>
-                            <button class="btn btn-primary" ng-click='like(tweet._id,user._id)'>Like</button>
+                            <button class="btn btn-primary" ng-click='like(tweet._id,user._id)' >Like</button>
+
                         </span>
 
                     </td>

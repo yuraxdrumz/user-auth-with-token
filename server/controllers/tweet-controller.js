@@ -25,16 +25,30 @@ module.exports.getAllTweets = function(req, res){
 
 module.exports.like = function(req, res){
     var tweetId = req.body.tweetId
-    Tweet.findById(tweetId,function(err, result){
+    var userId = req.body.userId
+    Tweet.find({$and:[{_id:tweetId},{likeFromUser:userId}]},function(err, result){
         if(err){
             res.error(err)
         }else{
-            var tweetInfo = result
-            tweetInfo.likes +=1;
-            tweetInfo.save();
-            Tweet.find({}).sort({Date:-1}).exec(function(err, all){
-                res.json(all)
-            })
+            if(result.length === 0){
+                Tweet.findById(tweetId,function(err, found){
+                    var foundUser = found;
+                    foundUser.likeFromUser.push(userId);
+                    foundUser.likes +=1;
+                    foundUser.save();
+                    Tweet.find({}).sort({Date:-1}).exec(function(err, allTweets){
+                        if(err){
+                            res.error(err)
+                        }else{
+                            res.json(allTweets)
+                        }
+                    })
+                })
+            }else{
+                res.json('liked')
+            }
         }
+
     })
 }
+
