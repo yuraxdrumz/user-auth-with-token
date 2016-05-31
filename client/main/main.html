@@ -1,8 +1,7 @@
 
-
+<nav class="navbar navbar-inverse"></nav>
 
 <div class="container-fluid text-center" ng-show='!loggedIn'>
-   <nav class="navbar navbar-inverse"></nav>
     <div class="row">
        <h1>User-Login</h1>
         <div class="col-sm-4 col-sm-offset-4">
@@ -17,27 +16,39 @@
     </div>
 </div>
 
-<div class="container-fluid text-center" ng-show='loggedIn'>
-<nav class="navbar navbar-inverse"></nav>
+<div class="container-fluid" ng-show='loggedIn'>
+
   <div class="col-sm-8 col-sm-offset-2">
    <div class="row">
       <h4>Press <kbd>Enter</kbd> to send tweet</h4>
        <textarea ng-model='newTweet' ng-keypress='sendTweet(event)' class="form-control" placeholder="write your tweet and press enter">
        </textarea>
    </div>
-    <div class="row">
-       <table class="table-responsive">
 
-          <tbody>
-              <tr ng-repeat='tweet in tweets'>
-                  <td> <img ng-src='{{tweet.userImage}}' class="img-responsive img-rounded"></td>
-                  <td>{{tweet.Date | date:'MMM/dd/yy hh:mm'}}</td>
-                  <td>{{tweet.content}}</td>
+    <table class="table-responsive col-md-12">
+        <thead>
+            <tr>
+                <th class="col-sm-2"></th>
+                <th class="col-sm-9"></th>
+
             </tr>
+        </thead>
+        <tbody>
+                <tr ng-repeat='tweet in tweets'>
+                    <td>
+                        <img ng-src='{{tweet.userImage}}' class="img-responsive center-block img-rounded">
+                    </td>
+                    <td class="bg-info">
+                        <div><strong>{{tweet.user}}</strong> posted on <strong>{{tweet.Date | date:'MMM/dd/yy hh:mm'}}</strong></div>
 
-      </tbody>
+                        <h4>{{tweet.content}}</h4>
+                        <button class="btn btn-primary pull-right">Like</button>
+
+                    </td>
+
+
+                </tr>
+        </tbody>
     </table>
-
-    </div>
 </div>
 </div>
