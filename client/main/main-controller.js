@@ -38,13 +38,19 @@
                         user:$scope.user.username || $scope.user.email,
                         userId: $scope.user._id,
                         userImage:$scope.user.image,
-                        content: $scope.newTweet
+                        content: $scope.newTweet,
+                        likes:0
                     }
                     tweet.postTweet(request).then(function(res){
                         $scope.tweets = res
                         $scope.newTweet = ''
                     })
                 }
+        }
+        $scope.like = function(tweetId,userId){
+            tweet.likeTweet(tweetId,userId).then(function(res){
+                $scope.tweets = res;
+            })
         }
 
 

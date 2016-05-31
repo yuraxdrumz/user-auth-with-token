@@ -21,3 +21,20 @@ module.exports.getAllTweets = function(req, res){
         }
     })
 }
+
+
+module.exports.like = function(req, res){
+    var tweetId = req.body.tweetId
+    Tweet.findById(tweetId,function(err, result){
+        if(err){
+            res.error(err)
+        }else{
+            var tweetInfo = result
+            tweetInfo.likes +=1;
+            tweetInfo.save();
+            Tweet.find({}).sort({Date:-1}).exec(function(err, all){
+                res.json(all)
+            })
+        }
+    })
+}

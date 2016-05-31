@@ -30,7 +30,7 @@ app.post('/api/profile/editPhoto',multipartyMiddleware,UserCtrl.profilePic)
 //tweets
 app.post('/api/tweet/post', tweetController.postTweet)
 app.get('/api/tweet/all-tweets', tweetController.getAllTweets)
-
+app.post('/api/tweets/like', tweetController.like)
 
 app.listen(port,function(){
     console.log('Listening on port ' + port);

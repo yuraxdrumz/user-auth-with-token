@@ -42,7 +42,11 @@
                         <div><strong>{{tweet.user}}</strong> posted on <strong>{{tweet.Date | date:'MMM/dd/yy hh:mm'}}</strong></div>
 
                         <h4>{{tweet.content}}</h4>
-                        <button class="btn btn-primary pull-right">Like</button>
+
+                        <span class="pull-right">
+                           <strong>Likes:{{tweet.likes}}</strong>
+                            <button class="btn btn-primary" ng-click='like(tweet._id,user._id)'>Like</button>
+                        </span>
 
                     </td>
 

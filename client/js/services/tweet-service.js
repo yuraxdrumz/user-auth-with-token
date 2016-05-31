@@ -15,6 +15,15 @@
                 },function(err){
                     throw err.status + err.data
                 })
+            },
+            likeTweet:function(tweetId,userId){
+                var request = {
+                    tweetId:tweetId,
+                    userId:userId
+                }
+                return $http.post('/api/tweets/like',request).then(function(res){
+                    return res.data
+                })
             }
         }
 
