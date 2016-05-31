@@ -21,23 +21,23 @@
 <nav class="navbar navbar-inverse"></nav>
   <div class="col-sm-8 col-sm-offset-2">
    <div class="row">
+      <h4>Press <kbd>Enter</kbd> to send tweet</h4>
        <textarea ng-model='newTweet' ng-keypress='sendTweet(event)' class="form-control" placeholder="write your tweet and press enter">
-
        </textarea>
    </div>
     <div class="row">
-        <table class="tweet-section">
-            <tr ng-repeat='tweet in tweets'>
-                <td>
-                    {{tweet.user}}
-                    <img ng-src='{{tweet.userImage}}' class="img-responsive">
-                </td>
-                <td>
-                    <strong>{{tweet.Date | date:"MM/dd/yyyy hh:mm"}}</strong>
-                    <p>{{tweet.content}}</p>
-                </td>
+       <table class="table-responsive">
+
+          <tbody>
+              <tr ng-repeat='tweet in tweets'>
+                  <td> <img ng-src='{{tweet.userImage}}' class="img-responsive img-rounded"></td>
+                  <td>{{tweet.Date | date:'MMM/dd/yy hh:mm'}}</td>
+                  <td>{{tweet.content}}</td>
             </tr>
-        </table>
+
+      </tbody>
+    </table>
+
     </div>
 </div>
 </div>
