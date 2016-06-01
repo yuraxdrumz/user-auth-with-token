@@ -35,6 +35,29 @@ var self = module.exports = {
                 }
             }
         })
+    },
+    unlike:function(req, res){
+        var tweetId = req.body.tweetId;
+        var userId = req.body.userId
+        Tweet.find({$and:[{_id:tweetId},{likeFromUser:userId}]},function(err,result){
+            if(err){
+                res.error(err)
+            }else{
+                if(result.length === 1){
+                    Tweet.update({_id:tweetId},{$pull:{likeFromUser:userId}},function(err, found){
+                        Tweet.findById(tweetId,function(err, changed){
+                            if(err){
+                                res.json(err)
+                            }else{
+                                changed.likes -=1;
+                                changed.save();
+                                self.getAllTweets(req,res)
+                            }
+                        })
+                    })
+                }
+            }
+        })
     }
 }
 

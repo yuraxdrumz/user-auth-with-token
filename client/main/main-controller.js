@@ -53,6 +53,11 @@
                 $scope.tweets = res
             })
         }
+        $scope.unlike = function(tweetId,userId){
+            tweet.unlikeTweet(tweetId,userId).then(function(res){
+                $scope.tweets = res
+            })
+        }
 
 
 
