@@ -20,6 +20,14 @@
             controller:'profileController'
         })
 
+        .state('chat',{
+            url:'/chat',
+            templateUrl:'client/chat/chat.html',
+            controller:'chatController'
+        })
+
 
     }])
+
+
 })()
