@@ -34,21 +34,26 @@
             </tr>
         </thead>
         <tbody>
-                <tr ng-repeat='tweet in tweets'>
-                    <td>
-                        <img ng-src='{{tweet.userImage}}' class="img-responsive center-block img-rounded">
-                    </td>
-                    <td class="bg-info">
-                        <div><strong>{{tweet.user}}</strong> posted on <strong>{{tweet.Date | date:'MMM/dd/yy hh:mm'}}</strong></div>
+ <div ng-repeat="tweet in tweets" class="tweet">
+    <div class="row">
+      <h5 class="col-xs-2">
+        <img ng-src='{{tweet.userImage}}'>
+      </h5>
+      <div class="arrow_box col-xs-10">
+        <h4 class="message">
+         <h4><strong>{{tweet.user}}</strong> posted on {{tweet.Date | date:'MMM/dd/yy hh:mm' }}</h4>
+          {{tweet.content}}
+          <div class="pull-right">
+              likes:{{tweet.likes}}
+              <button class="btn btn-primary" ng-click='like(tweet._id,user._id)'>Like</button>
+              <button class="btn btn-primary" ng-click='unlike(tweet._id,user._id)'>Unlike</button>
+            </div>
 
-                        <h4>{{tweet.content}}</h4>
+        </h4>
 
-                        <span class="pull-right">
-                           <strong>Likes:{{tweet.likes}}</strong>
-                            <button class="btn btn-primary" ng-click='like(tweet._id,user._id)'>Like</button>
-                            <button class="btn btn-primary" ng-click='unlike(tweet._id,user._id)'>unLike</button>
-
-                        </span>
+      </div>
+    </div>
+  </div>
 
                     </td>
 
