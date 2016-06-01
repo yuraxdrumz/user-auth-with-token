@@ -50,14 +50,10 @@
 
         $scope.like = function(tweetId,userId){
             tweet.likeTweet(tweetId,userId).then(function(res){
-                if(res === 'liked'){
-                    return
-                }else{
-                    $scope.tweets = res;
-                }
-
+                $scope.tweets = res
             })
         }
+
 
 
     }])
