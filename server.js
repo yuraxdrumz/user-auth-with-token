@@ -2,7 +2,6 @@ var express              = require('express');
 var app                  = express();
 var mongoose             = require('mongoose');
 var bodyParser           = require('body-parser');
-//var port                 = process.env.PORT || 3000;
 var UserCtrl             = require('./server/controllers/users-controller');
 var multiparty           = require('connect-multiparty');
 var multipartyMiddleware = multiparty();
@@ -10,7 +9,9 @@ var tweetController      = require('./server/controllers/tweet-controller')
 var socketio             = require('socket.io');
 var path                 = require('path')
 var http                 = require('http')
+var Message              = require('./server/models/messages')
 
+//db connect
 mongoose.connect('mongodb://localhost:27017/user-login');
 
 
@@ -20,6 +21,7 @@ app.use('/client',express.static(__dirname + '/client'));
 app.use('/node_modules',express.static(__dirname + '/node_modules'))
 app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use(multipartyMiddleware)
+
 //main page
 app.get('/',function(req, res){
     res.sendFile(__dirname + '/index.html')
@@ -39,12 +41,10 @@ app.post('/api/tweets/like', tweetController.like)
 app.post('/api/tweets/unlike',tweetController.unlike)
 
 
-var chatMessage = new mongoose.Schema({
-    username:String,
-    message:String
-});
-var Message = mongoose.model('Message',chatMessage);
+//set port
 app.set('port', process.env.PORT || 3000);
+
+//chat
 app.post('/message',function(req, res){
     var message = new Message({
         username:req.body.username,
@@ -71,11 +71,15 @@ app.get('/message',function(req, res){
     })
 })
 
+//create server
+var server = http.createServer(app).listen(app.get('port'),function(){
+    console.log('Express server listening on port ' + app.get('port'))
+})
 
-
+// listens to the server
 var io = socketio.listen(server);
 
-
+// on connection find all messages
 io.sockets.on('connection',function(socket){
     console.log('client connected')
     Message.find(function(err, allMessages){
@@ -86,6 +90,4 @@ io.sockets.on('connection',function(socket){
     })
 })
 
-var server = http.createServer(app).listen(app.get('port'),function(){
-    console.log('Express server listening on port ' + app.get('port'))
-})
+

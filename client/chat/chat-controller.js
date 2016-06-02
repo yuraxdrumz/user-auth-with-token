@@ -12,10 +12,12 @@
         socket.on('receiveMessage',function(data){
             $scope.messages.unshift(data);
             $scope.$apply();
+            console.log(data)
         });
 
         socket.on('pastMessages',function(data){
             $scope.messages = data.reverse();
+            console.log(data)
             $scope.$apply();
         })
         $scope.sendMessage = function(){
