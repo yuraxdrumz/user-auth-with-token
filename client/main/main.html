@@ -41,7 +41,7 @@
       </h5>
       <div class="arrow_box col-xs-10">
         <h4 class="message">
-         <h4><strong>{{tweet.user}}</strong> posted on {{tweet.Date | date:'MMM/dd/yy hh:mm' }}</h4>
+         <h4><strong>{{tweet.user}}</strong> posted  {{tweet.Date | fromNow }}</h4>
           {{tweet.content}}
           <div class="pull-right">
               likes:{{tweet.likes}}
