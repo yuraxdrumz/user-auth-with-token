@@ -2,6 +2,7 @@
     angular.module('myApp')
     .controller('chatController',['$scope','MessageCreator',function($scope,MessageCreator){
         if(localStorage['user-data']){
+            $scope.loggedIn = true
             $scope.user = JSON.parse(localStorage['user-data'])
         }
         $scope.message = '';

@@ -9,6 +9,7 @@
         $scope.logout = function(){
             localStorage.clear();
             $scope.loggedIn = false;
+            $location.path('/')
 
         }
         $scope.changeInfo = function(){

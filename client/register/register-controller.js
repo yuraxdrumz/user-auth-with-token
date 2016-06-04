@@ -2,12 +2,12 @@
     angular.module('myApp')
     .controller('regController',['$scope','$http','$location','users','Upload',function($scope,$http,$location,users,Upload){
 
-        $scope.isFormValid = true
+        $scope.isFormValid = false
         localStorage.clear()
 
         $scope.$watch(function(){
             if($scope.file){
-                $scope.isFormValid = false
+                $scope.isFormValid = true
             }
         })
 

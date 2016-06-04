@@ -20,7 +20,7 @@
     ngf-resize="{width: 200, height: 200}" ng-disabled='regForm.$invalid'>Select
                     </button>
                </div>
-               <button type="submit" class="btn btn-primary" ng-disabled='isFormValid'>Register</button>
+               <button type="submit" class="btn btn-primary" ng-disabled='!isFormValid'>Register</button>
 
                 <div ng-messages="regForm.username.$error" >
                     <p ng-message='required' >Username Required</p>

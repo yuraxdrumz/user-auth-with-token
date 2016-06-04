@@ -1,21 +1,25 @@
-   <div class="container-fluid">
+   <div class="container">
     <div class="navbar-header">
         <a class="navbar-brand" ui-sref='main'>Home</a>
     </div>
     <ul class="nav navbar-nav pull-right" ng-show='loggedIn'>
-        <li>
-            <a>Logged in as: <img ng-src='{{user.image}}' style="height:20px;width:20px;"> {{user.username}} </a>
-        </li>
+
         <li>
             <a ui-sref='chat'>Chat</a>
         </li>
-        <li>
-            <a ui-sref='profile'>Profile</a>
+        <li class="dropdown">
+                  <a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img ng-src='{{user.image}}' style="height:20px;width:20px;"> {{user.username}} <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a ui-sref='profile'>View Profile</a></li>
+                    <li><a ui-sref='profile-settings'>Change Information</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a ng-click='logout()'>Logout</a></li>
+                  </ul>
         </li>
         <li>
             <a ng-click='logout()' ui-sref='main'>Logout</a>
         </li>
 
+       </ul>
 
-    </ul>
 </div>

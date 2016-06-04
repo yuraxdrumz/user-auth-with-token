@@ -38,7 +38,8 @@
         $scope.logout = function(){
             localStorage.clear();
             $scope.loggedIn = false;
-            $scope.user = null
+            $scope.user = null;
+            $location.path('/')
 
         }
 
