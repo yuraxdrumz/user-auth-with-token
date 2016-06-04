@@ -16,44 +16,42 @@ var self = module.exports = {
         self.getAllTweets(req,res)
     },
     like:function(req, res){
-        var tweetId = req.body.tweetId
-        var userId = req.body.userId
-        Tweet.find({$and:[{_id:tweetId},{likeFromUser:userId}]},function(err, result){
+        Tweet.find({$and:[{_id:req.params.id},{likeFromUser:req.params.userId}]},function(err, check){
             if(err){
-                res.error(err)
+                console.log(err)
             }else{
-                if(result.length === 0){
-                    Tweet.findById(tweetId,function(err, found){
-                        var foundUser = found;
-                        foundUser.likeFromUser.push(userId);
-                        foundUser.likes +=1;
-                        foundUser.save();
-                        self.getAllTweets(req,res)
+                if(check.length === 0){
+                    Tweet.update({_id:req.params.id},{$push:{likeFromUser:req.params.userId}},function(err, num){
+                        if(err){
+                            console.log(err)
+                        }else{
+                            Tweet.findById(req.params.id,function(err, result){
+                                result.likes +=1;
+                                result.save()
+                                res.json(result)
+                            })
+                        }
                     })
-                }else{
-                    self.getAllTweets(req,res)
                 }
             }
         })
     },
     unlike:function(req, res){
-        var tweetId = req.body.tweetId;
-        var userId = req.body.userId
-        Tweet.find({$and:[{_id:tweetId},{likeFromUser:userId}]},function(err,result){
+        Tweet.find({$and:[{_id:req.params.id},{likeFromUser:req.params.userId}]},function(err, check){
             if(err){
-                res.error(err)
+                console.log(err)
             }else{
-                if(result.length === 1){
-                    Tweet.update({_id:tweetId},{$pull:{likeFromUser:userId}},function(err, found){
-                        Tweet.findById(tweetId,function(err, changed){
-                            if(err){
-                                res.json(err)
-                            }else{
-                                changed.likes -=1;
-                                changed.save();
-                                self.getAllTweets(req,res)
-                            }
-                        })
+                if(check.length === 1){
+                    Tweet.update({_id:req.params.id},{$pull:{likeFromUser:req.params.userId}},function(err, num){
+                        if(err){
+                            console.log(err)
+                        }else{
+                            Tweet.findById(req.params.id,function(err, result){
+                                result.likes -=1;
+                                result.save()
+                                res.json(result)
+                            })
+                        }
                     })
                 }
             }

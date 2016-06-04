@@ -38,8 +38,8 @@ app.post('/api/profile/editPhoto',multipartyMiddleware,UserCtrl.profilePic)
 //tweets
 app.post('/api/tweet/post', tweetController.postTweet)
 app.get('/api/tweet/all-tweets', tweetController.getAllTweets)
-app.post('/api/tweets/like', tweetController.like)
-app.post('/api/tweets/unlike',tweetController.unlike)
+app.put('/api/tweets/:id/:userId/like',tweetController.like)
+app.delete('/api/tweets/:id/:userId/unlike',tweetController.unlike)
 
 
 //set port

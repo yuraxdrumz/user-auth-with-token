@@ -17,23 +17,17 @@
                 })
             },
             likeTweet:function(tweetId,userId){
-                var request = {
-                    tweetId:tweetId,
-                    userId:userId
-                }
-                return $http.post('/api/tweets/like',request).then(function(res){
+                return $http.put('/api/tweets/' + tweetId + '/' + userId + '/like').then(function(res){
                     return res.data
                 })
             },
             unlikeTweet:function(tweetId,userId){
-                var request = {
-                    tweetId:tweetId,
-                    userId:userId
-                }
-                return $http.post('/api/tweets/unlike',request).then(function(res){
+                return $http.delete('/api/tweets/' + tweetId + '/' + userId + '/unlike').then(function(res){
                     return res.data
-                })
-            }
+                }
+
+
+            )}
         }
 
     }])

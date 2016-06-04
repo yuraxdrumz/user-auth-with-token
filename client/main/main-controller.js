@@ -10,7 +10,18 @@
         if(localStorage['user-data']){
             $scope.loggedIn = true
             $scope.user = JSON.parse(localStorage['user-data'])
+            $scope.isLiked = function(tweet){
+                for(var i=0,len=$scope.tweets[$scope.tweets.indexOf(tweet)].likeFromUser.length;i<len;i++){
+                    if($scope.tweets[$scope.tweets.indexOf(tweet)].likeFromUser[i] == $scope.user._id){
+                        return true
+                    }else{
+                        if($scope.tweets[$scope.tweets.indexOf(tweet)].likeFromUser[i] == undefined){
+                            return false
+                        }
 
+                    }
+                }
+            }
         }else{
             $scope.loggedIn = false;
         }
@@ -48,16 +59,18 @@
                 }
         }
 
-        $scope.like = function(tweetId,userId){
-            tweet.likeTweet(tweetId,userId).then(function(res){
-                $scope.tweets = res
+        $scope.like = function(tweetObject,userId){
+            tweet.likeTweet(tweetObject._id,userId).then(function(res){
+                $scope.tweets[$scope.tweets.indexOf(tweetObject)] = res
             })
         }
-        $scope.unlike = function(tweetId,userId){
-            tweet.unlikeTweet(tweetId,userId).then(function(res){
-                $scope.tweets = res
+        $scope.unlike = function(tweetObject,userId){
+            tweet.unlikeTweet(tweetObject._id,userId).then(function(res){
+                $scope.tweets[$scope.tweets.indexOf(tweetObject)] = res
             })
         }
+
+
 
 
 

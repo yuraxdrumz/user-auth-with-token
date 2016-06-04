@@ -26,7 +26,6 @@
             controller:'chatController'
         })
 
-
     }])
 
 

@@ -7,5 +7,6 @@ module.exports = mongoose.model('Tweet',{
     userImage:String,
     Date:{type:Date,default:Date.now},
     likes:{type:Number,min:0},
-    likeFromUser:[{type:String}]
+    likeFromUser:[{type:String}],
+
 })
