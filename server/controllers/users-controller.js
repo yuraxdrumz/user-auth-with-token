@@ -5,7 +5,10 @@ var fs = require('fs-extra')
 
 var self = module.exports = {
     register:function(req, res){
-        var user = new User(req.body) ;
+        var user = new User() ;
+        user.setPassword(req.body.password);
+        user.email = req.body.email
+        user.username = req.body.username
         user.save();
         res.json({
             userId:user._id,
@@ -14,15 +17,18 @@ var self = module.exports = {
         })
     },
     login:function(req, res){
-        User.find(req.body,function(err, results){
+        User.find({username:req.body.username},function(err, results){
             if(results && results.length === 1){
                 var foundUser = results[0];
-                res.json({
-                    _id:foundUser._id,
-                    email:foundUser.email,
-                    username:foundUser.username,
-                    image:foundUser.image
-                });
+                if(foundUser.validPassword(req.body.password)){
+                    res.json({
+                        _id:foundUser._id,
+                        email:foundUser.email,
+                        username:foundUser.username,
+                        image:foundUser.image
+                    })
+                }
+
             }
         })
     },
@@ -52,6 +58,7 @@ var self = module.exports = {
 
         User.findById(userId,function(err, result){
             var user = result
+            console.log(user)
             var savePath = '/uploads/' + user._id  + uploadDate + file.name;
             var tempPath = file.path
             var targetPath = path.join(__dirname,"../../uploads/" + user._id + uploadDate + file.name);

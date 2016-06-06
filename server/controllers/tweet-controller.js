@@ -20,6 +20,7 @@ var self = module.exports = {
             if(err){
                 console.log(err)
             }else{
+
                 if(check.length === 0){
                     Tweet.update({_id:req.params.id},{$push:{likeFromUser:req.params.userId}},function(err, num){
                         if(err){
