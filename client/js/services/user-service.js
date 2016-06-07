@@ -4,6 +4,7 @@
         return{
             addUser:function(user){
                 return $http.post('api/users/login',user).then(function(res){
+                    console.log(res)
                     return res.data
                 },function(err){
                     throw err.status + err.data

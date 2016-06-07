@@ -13,7 +13,7 @@
               <img ng-src='{{user.image}}' class="center-block img-responsive" ngf-select ng-model="file" name="file" ngf-pattern="'image/*'"
     ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100"
     ngf-resize="{width: 200, height: 200}" style='cursor:pointer'>
-               <label>Username:</label><input type="text" class="form-control" ng-model='user.username'>
+               <label>Username:</label><input type="text" class="form-control" ng-model='user.name'>
                <label>Email:</label><input type="text" class="form-control" ng-model='user.email'>
 
                <button type="submit" class="btn btn-primary">Change info</button>

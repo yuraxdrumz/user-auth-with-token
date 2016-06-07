@@ -1,6 +1,7 @@
 (function(){
     angular.module('myApp',['ui.router','ngFileUpload','ngMessages'])
-    .config(['$stateProvider','$urlRouterProvider',function($stateProvider,$urlRouterProvider){
+
+    function config ($stateProvider,$urlRouterProvider){
 
         $urlRouterProvider.otherwise('/');
         $stateProvider
@@ -26,7 +27,19 @@
             controller:'chatController'
         })
 
-    }])
+    }
 
+    function run($rootScope, $location, auth) {
+        $rootScope.$on('$stateChangeStart', function(event, nextRoute, currentRoute) {
+            if ($location.path() === '/profile' && !auth.isLoggedIn()){
+                $location.path('/');
+            }
+        });
+    }
+
+      angular
+    .module('myApp')
+    .config(['$stateProvider', '$urlRouterProvider', config])
+    .run(['$rootScope', '$location', 'auth', run]);
 
 })()

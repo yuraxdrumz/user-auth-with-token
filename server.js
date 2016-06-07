@@ -10,7 +10,14 @@ var socketio             = require('socket.io');
 var path                 = require('path')
 var http                 = require('http')
 var Message              = require('./server/models/messages')
+var jwt = require('express-jwt');
+var auth = jwt({
+  secret: 'MY_SECRET',
+  userProperty: 'payload'
+});
 
+var ctrl = require('./server/controllers/profile')
+require('./server/config/passport')
 //db connect
 mongoose.connect('mongodb://localhost:27017/user-login');
 
@@ -28,11 +35,13 @@ app.get('/',function(req, res){
     res.sendFile(__dirname + '/index.html')
 })
 
+app.get('/api/profile',auth,ctrl.profileRead)
+
 //users
 app.post('/api/users/register', UserCtrl.register)
 app.post('/api/users/login', UserCtrl.login)
 app.post('/api/users/update', UserCtrl.update)
-app.post('/api/profile/editPhoto',multipartyMiddleware,UserCtrl.profilePic)
+//app.post('/api/profile/editPhoto',multipartyMiddleware,UserCtrl.profilePic)
 
 
 //tweets

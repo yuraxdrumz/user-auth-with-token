@@ -1,9 +1,9 @@
 (function(){
     angular.module('myApp')
-    .controller('regController',['$scope','$http','$location','users','Upload',function($scope,$http,$location,users,Upload){
+    .controller('regController',['$scope','$http','$location','auth','Upload',function($scope,$http,$location,auth,Upload){
 
         $scope.isFormValid = false
-        localStorage.clear()
+        auth.logout();
 
         $scope.$watch(function(){
             if($scope.file){
@@ -12,14 +12,13 @@
         })
 
         $scope.register = function(){
-            users.registerUser($scope.user).then(function(res){
-                users.uploadPhoto($scope.file,res).then(function(res){
-                    $location.path('/')
-                })
+            auth.register($scope.user).then(function(){
+                $location.path('/')
             })
-
-
-
         }
+
+
+
+
     }])
 })()

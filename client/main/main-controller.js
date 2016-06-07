@@ -1,45 +1,40 @@
 (function(){
     angular.module('myApp')
-    .controller('mainController',['$scope','$http','$location','users','tweet',function($scope,$http,$location,users,tweet){
+    .controller('mainController',['$scope','$http','$location','auth','tweet',function($scope,$http,$location,auth,tweet){
 
         tweet.getAllTweets().then(function(res){
             $scope.tweets = res
         })
 
 
-        if(localStorage['user-data']){
-            $scope.loggedIn = true
-            $scope.user = JSON.parse(localStorage['user-data'])
-            $scope.isLiked = function(tweet){
-                for(var i=0,len=$scope.tweets[$scope.tweets.indexOf(tweet)].likeFromUser.length;i<len;i++){
-                    if($scope.tweets[$scope.tweets.indexOf(tweet)].likeFromUser[i] == $scope.user._id){
-                        return true
-                    }else{
-                        if($scope.tweets[$scope.tweets.indexOf(tweet)].likeFromUser[i] == undefined){
-                            return false
-                        }
-
-                    }
-                }
-            }
-        }else{
-            $scope.loggedIn = false;
-        }
+//        if(localStorage['user-data']){
+//            $scope.loggedIn = true
+//            $scope.user = JSON.parse(localStorage['user-data'])
+//            $scope.isLiked = function(tweet){
+//                for(var i=0,len=$scope.tweets[$scope.tweets.indexOf(tweet)].likeFromUser.length;i<len;i++){
+//                    if($scope.tweets[$scope.tweets.indexOf(tweet)].likeFromUser[i] == $scope.user._id){
+//                        return true
+//                    }else{
+//                        if($scope.tweets[$scope.tweets.indexOf(tweet)].likeFromUser[i] == undefined){
+//                            return false
+//                        }
+//
+//                    }
+//                }
+//            }
+//        }else{
+//            $scope.loggedIn = false;
+//        }
 
         $scope.login = function(){
-            users.addUser($scope.user).then(function(res){
-                localStorage.setItem('user-data',JSON.stringify(res))
-                $scope.loggedIn = true;
+            auth.login($scope.user).then(function(){
                 $location.path('/profile')
             })
         }
 
 
         $scope.logout = function(){
-            localStorage.clear();
-            $scope.loggedIn = false;
-            $scope.user = null;
-            $location.path('/')
+            auth.logout()
 
         }
 
