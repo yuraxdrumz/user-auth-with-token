@@ -2,26 +2,22 @@
     angular.module('myApp')
     .controller('mainController',['$scope','$http','$location','auth','tweet',function($scope,$http,$location,auth,tweet){
 
-        tweet.getAllTweets().then(function(res){
+        if(auth.isLoggedIn()){
+            $scope.loggedIn = true;
+            tweet.getAllTweets().then(function(res){
             $scope.tweets = res
+            $scope.user = auth.currentUser()
+            })
+        }
+        $scope.$watch(auth.isLoggedIn,function(newVal,oldVal){
+            if(newVal === false){
+                $scope.loggedIn = false;
+            }
         })
-
-
 //        if(localStorage['user-data']){
 //            $scope.loggedIn = true
 //            $scope.user = JSON.parse(localStorage['user-data'])
-//            $scope.isLiked = function(tweet){
-//                for(var i=0,len=$scope.tweets[$scope.tweets.indexOf(tweet)].likeFromUser.length;i<len;i++){
-//                    if($scope.tweets[$scope.tweets.indexOf(tweet)].likeFromUser[i] == $scope.user._id){
-//                        return true
-//                    }else{
-//                        if($scope.tweets[$scope.tweets.indexOf(tweet)].likeFromUser[i] == undefined){
-//                            return false
-//                        }
-//
-//                    }
-//                }
-//            }
+
 //        }else{
 //            $scope.loggedIn = false;
 //        }
@@ -35,6 +31,7 @@
 
         $scope.logout = function(){
             auth.logout()
+            $location.path('/')
 
         }
 
@@ -42,8 +39,8 @@
             event = event || window.event;
                 if(event.keyCode === 13){
                     var request = {
-                        user:$scope.user.username || $scope.user.email,
-                        userId: $scope.user._id,
+                        user:$scope.user.name || $scope.user.email,
+                        userId: $scope.user.userId,
                         userImage:$scope.user.image,
                         content: $scope.newTweet,
                         likes:0
@@ -66,7 +63,18 @@
             })
         }
 
+            $scope.isLiked = function(tweet){
+                for(var i=0,len=$scope.tweets[$scope.tweets.indexOf(tweet)].likeFromUser.length;i<len;i++){
+                    if($scope.tweets[$scope.tweets.indexOf(tweet)].likeFromUser[i] == $scope.user.userId){
+                        return true
+                    }else{
+                        if($scope.tweets[$scope.tweets.indexOf(tweet)].likeFromUser[i] == undefined){
+                            return false
+                        }
 
+                    }
+                }
+            }
 
 
 

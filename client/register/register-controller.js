@@ -13,7 +13,11 @@
 
         $scope.register = function(){
             auth.register($scope.user).then(function(){
+                auth.uploadPhoto($scope.file,auth.currentUser().userId).then(function(){
+                auth.logout()
                 $location.path('/')
+                })
+
             })
         }
 

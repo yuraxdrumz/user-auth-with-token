@@ -45,8 +45,8 @@
           {{tweet.content}}
           <div class="pull-right">
               likes:{{tweet.likes}}
-              <button class="btn btn-primary" ng-click='like(tweet,user._id)' ng-hide='isLiked(tweet)'>Like</button>
-              <button class="btn btn-primary" ng-click='unlike(tweet,user._id)' ng-show='isLiked(tweet)'>Unlike</button>
+              <button class="btn btn-primary" ng-click='like(tweet,user.userId)' ng-hide='isLiked(tweet)'>Like</button>
+              <button class="btn btn-primary" ng-click='unlike(tweet,user.userId)' ng-show='isLiked(tweet)'>Unlike</button>
             </div>
 
         </h4>

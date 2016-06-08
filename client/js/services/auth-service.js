@@ -1,6 +1,6 @@
 (function(){
     angular.module('myApp')
-    .service('auth',['$http','$window',function($http,$window){
+    .service('auth',['$http','$window','Upload',function($http,$window,Upload){
         var saveToken = function(token){
             $window.localStorage['mean-token'] = token;
         }
@@ -30,20 +30,37 @@
                 payload = JSON.parse(payload);
                 return{
                     email:payload.email,
-                    name:payload.name
+                    name:payload.name,
+                    userId:payload._id,
+                    image:payload.image
                 }
             }
         }
+        var uploadPhoto = function(file,userId){
+            return Upload.upload({
+                url:'/api/profile/editPhoto',
+                method:"POST",
+                data:{userId:userId},
+                file:file
+                }).then(function(res){
+                    return res.data
+                },function(err){
+                    throw err.status + err.data
+                })
+        }
         var register = function(user){
             return $http.post('/api/users/register',user).then(function(res){
-                saveToken(res.data.token)
+                return saveToken(res.data.token)
             }).catch(function(err){
                 console.log(err.message)
             })
         }
         var login = function(user){
             return $http.post('api/users/login',user).then(function(res){
-                saveToken(res.data.token)
+                return saveToken(res.data.token)
+
+            }).catch(function(err){
+                throw err
             })
         }
         var logout = function() {
@@ -56,7 +73,8 @@
             isLoggedIn : isLoggedIn,
             register : register,
             login : login,
-            logout : logout
+            logout : logout,
+            uploadPhoto:uploadPhoto
         };
     }])
 })()

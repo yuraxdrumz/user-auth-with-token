@@ -1,5 +1,6 @@
 var express              = require('express');
 var app                  = express();
+var morgan               = require('morgan')
 var mongoose             = require('mongoose');
 var bodyParser           = require('body-parser');
 var UserCtrl             = require('./server/controllers/users-controller');
@@ -12,7 +13,7 @@ var http                 = require('http')
 var Message              = require('./server/models/messages')
 var jwt = require('express-jwt');
 var auth = jwt({
-  secret: 'MY_SECRET',
+  secret: 'lalala',
   userProperty: 'payload'
 });
 
@@ -22,7 +23,7 @@ require('./server/config/passport')
 mongoose.connect('mongodb://localhost:27017/user-login');
 
 
-
+app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use('/client',express.static(__dirname + '/client'));
 app.use('/node_modules',express.static(__dirname + '/node_modules'))
@@ -41,7 +42,7 @@ app.get('/api/profile',auth,ctrl.profileRead)
 app.post('/api/users/register', UserCtrl.register)
 app.post('/api/users/login', UserCtrl.login)
 app.post('/api/users/update', UserCtrl.update)
-//app.post('/api/profile/editPhoto',multipartyMiddleware,UserCtrl.profilePic)
+app.post('/api/profile/editPhoto',multipartyMiddleware,UserCtrl.profilePic)
 
 
 //tweets
