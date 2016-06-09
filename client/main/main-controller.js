@@ -14,20 +14,12 @@
                 $scope.loggedIn = false;
             }
         })
-//        if(localStorage['user-data']){
-//            $scope.loggedIn = true
-//            $scope.user = JSON.parse(localStorage['user-data'])
-
-//        }else{
-//            $scope.loggedIn = false;
-//        }
 
         $scope.login = function(){
             auth.login($scope.user).then(function(){
                 $location.path('/profile')
             })
         }
-
 
         $scope.logout = function(){
             auth.logout()

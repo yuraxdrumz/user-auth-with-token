@@ -1,10 +1,16 @@
 (function(){
     angular.module('myApp')
-    .controller('chatController',['$scope','MessageCreator',function($scope,MessageCreator){
-        if(localStorage['user-data']){
-            $scope.loggedIn = true
-            $scope.user = JSON.parse(localStorage['user-data'])
+    .controller('chatController',['$scope','MessageCreator','auth','$location',function($scope,MessageCreator,auth,$location){
+
+    if(auth.isLoggedIn()){
+        $scope.loggedIn = true;
+
+        $scope.logout = function(){
+            auth.logout()
+            $location.path('/')
         }
+
+        $scope.user = auth.currentUser()
         $scope.message = '';
         $scope.filterText = '';
         $scope.messages = [];
@@ -20,26 +26,28 @@
             $scope.$apply();
         })
         $scope.sendMessage = function(){
-            if ($scope.userName == '') {
-			     window.alert('Choose a username');
-			     return;
-		      }
-
-		  if (!$scope.message == '') {
-            var chatMessage = {
-                username:$scope.user.username,
-                message:$scope.message
+            if ($scope.user.name == '') {
+                window.alert('Choose a username');
+                return;
             }
 
-            MessageCreator.postMessage(chatMessage,function(result,err){
+            if (!$scope.message == '') {
+                var chatMessage = {
+                    username:$scope.user.name,
+                    message:$scope.message
+                }
+
+                MessageCreator.postMessage(chatMessage,function(result,err){
                 if(err){
                     window.alert('error saving to db')
                     return
                 }
                 $scope.message = '';
 
-            })
+                })
+            }
         }
-        }
+    }
+
     }])
 })()

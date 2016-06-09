@@ -30,9 +30,12 @@
     }
 
     function run($rootScope, $location, auth) {
-        $rootScope.$on('$stateChangeStart', function(event, nextRoute, currentRoute) {
+        $rootScope.$on('$locationChangeStart', function(event, nextRoute, currentRoute) {
             if ($location.path() === '/profile' && !auth.isLoggedIn()){
                 $location.path('/');
+            }
+            if($location.path() === '/chat' && !auth.isLoggedIn()){
+                $location.path('/')
             }
         });
     }

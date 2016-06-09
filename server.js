@@ -11,18 +11,21 @@ var socketio             = require('socket.io');
 var path                 = require('path')
 var http                 = require('http')
 var Message              = require('./server/models/messages')
-var jwt = require('express-jwt');
+var passport             = require('passport')
+var ctrl                 = require('./server/controllers/profile')
+                           require('./server/config/passport')
+var jwt =                  require('express-jwt');
+
 var auth = jwt({
   secret: 'lalala',
   userProperty: 'payload'
 });
 
-var ctrl = require('./server/controllers/profile')
-require('./server/config/passport')
+
 //db connect
 mongoose.connect('mongodb://localhost:27017/user-login');
 
-
+app.use(passport.initialize());
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use('/client',express.static(__dirname + '/client'));
@@ -31,12 +34,19 @@ app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
 app.use(multipartyMiddleware)
 
+app.use(function (err, req, res, next) {
+  if (err.name === 'UnauthorizedError') {
+    res.status(401);
+    res.json({"message" : err.name + ": " + err.message});
+  }
+});
+app.get('/api/profile',auth,ctrl.profileRead)
 //main page
 app.get('/',function(req, res){
     res.sendFile(__dirname + '/index.html')
 })
 
-app.get('/api/profile',auth,ctrl.profileRead)
+
 
 //users
 app.post('/api/users/register', UserCtrl.register)
@@ -50,6 +60,7 @@ app.post('/api/tweet/post', tweetController.postTweet)
 app.get('/api/tweet/all-tweets', tweetController.getAllTweets)
 app.put('/api/tweets/:id/:userId/like',tweetController.like)
 app.delete('/api/tweets/:id/:userId/unlike',tweetController.unlike)
+
 
 
 //set port
