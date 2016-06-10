@@ -13,13 +13,14 @@ var http                 = require('http')
 var Message              = require('./server/models/messages')
 var passport             = require('passport')
 var ctrl                 = require('./server/controllers/profile')
-                           require('./server/config/passport')
-var jwt =                  require('express-jwt');
+var jwt                  = require('express-jwt');
+require('./server/config/passport')
 
 var auth = jwt({
   secret: 'lalala',
   userProperty: 'payload'
 });
+
 
 
 //db connect
@@ -36,11 +37,10 @@ app.use(multipartyMiddleware)
 
 app.use(function (err, req, res, next) {
   if (err.name === 'UnauthorizedError') {
-    res.status(401);
-    res.json({"message" : err.name + ": " + err.message});
+    res.send(401, 'invalid token...');
   }
 });
-app.get('/api/profile',auth,ctrl.profileRead)
+
 //main page
 app.get('/',function(req, res){
     res.sendFile(__dirname + '/index.html')
@@ -61,12 +61,12 @@ app.get('/api/tweet/all-tweets', tweetController.getAllTweets)
 app.put('/api/tweets/:id/:userId/like',tweetController.like)
 app.delete('/api/tweets/:id/:userId/unlike',tweetController.unlike)
 
-
+app.get('/api/profile',auth,ctrl.profileRead)
 
 //set port
 app.set('port', process.env.PORT || 3000);
 
-//chat
+//chat with socket.io
 app.post('/message',function(req, res){
     var message = new Message({
         username:req.body.username,

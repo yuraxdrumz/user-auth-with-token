@@ -55,18 +55,18 @@
             })
         }
 
-            $scope.isLiked = function(tweet){
-                for(var i=0,len=$scope.tweets[$scope.tweets.indexOf(tweet)].likeFromUser.length;i<len;i++){
-                    if($scope.tweets[$scope.tweets.indexOf(tweet)].likeFromUser[i] == $scope.user.userId){
-                        return true
-                    }else{
-                        if($scope.tweets[$scope.tweets.indexOf(tweet)].likeFromUser[i] == undefined){
-                            return false
-                        }
-
+        $scope.isLiked = function(tweet){
+            for(var i=0,len=$scope.tweets[$scope.tweets.indexOf(tweet)].likeFromUser.length;i<len;i++){
+                if($scope.tweets[$scope.tweets.indexOf(tweet)].likeFromUser[i] == $scope.user.userId){
+                    return true
+                }else{
+                    if($scope.tweets[$scope.tweets.indexOf(tweet)].likeFromUser[i] == undefined){
+                        return false
                     }
+
                 }
             }
+        }
 
 
 

@@ -29,13 +29,16 @@
 
     }
 
-    function run($rootScope, $location, auth) {
-        $rootScope.$on('$locationChangeStart', function(event, nextRoute, currentRoute) {
+    function run($rootScope, $location,$state, auth) {
+        $rootScope.$on('$stateChangeStart', function(event, nextRoute, currentRoute) {
             if ($location.path() === '/profile' && !auth.isLoggedIn()){
-                $location.path('/');
+                $state.go('main');
+                event.preventDefault()
+
             }
             if($location.path() === '/chat' && !auth.isLoggedIn()){
-                $location.path('/')
+                $state.go('main');
+                event.preventDefault()
             }
         });
     }
@@ -43,6 +46,6 @@
       angular
     .module('myApp')
     .config(['$stateProvider', '$urlRouterProvider', config])
-    .run(['$rootScope', '$location', 'auth', run]);
+    .run(['$rootScope', '$location','$state', 'auth', run]);
 
 })()
