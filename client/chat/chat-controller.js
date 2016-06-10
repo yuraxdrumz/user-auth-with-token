@@ -1,6 +1,6 @@
 (function(){
     angular.module('myApp')
-    .controller('chatController',['$scope','MessageCreator','auth','$location',function($scope,MessageCreator,auth,$location){
+    .controller('chatController',['$scope','MessageCreator','auth','$location','$state',function($scope,MessageCreator,auth,$location,$state){
 
     if(auth.isLoggedIn()){
         $scope.loggedIn = true;
@@ -47,6 +47,8 @@
                 })
             }
         }
+    }else{
+       $state.go('main')
     }
 
     }])

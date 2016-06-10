@@ -16,7 +16,10 @@
         })
 
         $scope.login = function(){
-            auth.login($scope.user).then(function(){
+            auth.login($scope.user)
+                .catch(function(err){
+                throw err.mesage
+            }).then(function(){
                 $location.path('/profile')
             })
         }

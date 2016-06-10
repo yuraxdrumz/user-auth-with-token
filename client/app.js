@@ -7,8 +7,9 @@
         $stateProvider
         .state('main',{
             url:'/',
-            templateUrl:'client/main/main.html',
-            controller:'mainController'
+            controller:'mainController',
+            templateUrl:'client/main/main.html'
+
         })
         .state('register',{
             url:'/register',
@@ -28,24 +29,8 @@
         })
 
     }
-
-    function run($rootScope, $location,$state, auth) {
-        $rootScope.$on('$stateChangeStart', function(event, nextRoute, currentRoute) {
-            if ($location.path() === '/profile' && !auth.isLoggedIn()){
-                $state.go('main');
-                event.preventDefault()
-
-            }
-            if($location.path() === '/chat' && !auth.isLoggedIn()){
-                $state.go('main');
-                event.preventDefault()
-            }
-        });
-    }
-
       angular
     .module('myApp')
     .config(['$stateProvider', '$urlRouterProvider', config])
-    .run(['$rootScope', '$location','$state', 'auth', run]);
 
 })()

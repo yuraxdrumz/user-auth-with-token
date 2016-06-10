@@ -1,21 +1,24 @@
 var express              = require('express');
 var app                  = express();
+var http                 = require('http')
+var path                 = require('path')
 var morgan               = require('morgan')
 var mongoose             = require('mongoose');
 var bodyParser           = require('body-parser');
-var UserCtrl             = require('./server/controllers/users-controller');
+var passport             = require('passport')
+var jwt                  = require('express-jwt');
 var multiparty           = require('connect-multiparty');
 var multipartyMiddleware = multiparty();
-var tweetController      = require('./server/controllers/tweet-controller')
-var socketio             = require('socket.io');
-var path                 = require('path')
-var http                 = require('http')
-var Message              = require('./server/models/messages')
-var passport             = require('passport')
-var ctrl                 = require('./server/controllers/profile')
-var jwt                  = require('express-jwt');
-require('./server/config/passport')
 
+// controllers
+var tweetController      = require('./server/controllers/tweet-controller')
+var UserCtrl             = require('./server/controllers/users-controller');
+var Message              = require('./server/models/messages')
+var ctrl                 = require('./server/controllers/profile')
+                           require('./server/config/passport')
+var socketio             = require('socket.io');
+
+// authentication middleware for user
 var auth = jwt({
   secret: 'lalala',
   userProperty: 'payload'
@@ -26,7 +29,7 @@ var auth = jwt({
 //db connect
 mongoose.connect('mongodb://localhost:27017/user-login');
 
-app.use(passport.initialize());
+
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use('/client',express.static(__dirname + '/client'));
@@ -34,12 +37,10 @@ app.use('/node_modules',express.static(__dirname + '/node_modules'))
 app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
 app.use(multipartyMiddleware)
+app.use(passport.initialize());
 
-app.use(function (err, req, res, next) {
-  if (err.name === 'UnauthorizedError') {
-    res.send(401, 'invalid token...');
-  }
-});
+app.get('/api/profile',auth,ctrl.profileRead)
+
 
 //main page
 app.get('/',function(req, res){
@@ -61,7 +62,6 @@ app.get('/api/tweet/all-tweets', tweetController.getAllTweets)
 app.put('/api/tweets/:id/:userId/like',tweetController.like)
 app.delete('/api/tweets/:id/:userId/unlike',tweetController.unlike)
 
-app.get('/api/profile',auth,ctrl.profileRead)
 
 //set port
 app.set('port', process.env.PORT || 3000);
@@ -84,7 +84,8 @@ app.post('/message',function(req, res){
 })
 
 
-app.get('/message',function(req, res){
+app.get('/message',auth,function(req, res){
+    console.log(req.body)
     Message.find(function(err, allMessages){
         if(err){
             return res.send(err)
@@ -111,5 +112,20 @@ io.sockets.on('connection',function(socket){
         socket.emit('pastMessages', allMessages)
     })
 })
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+});
 
+// error handlers
+
+// [SH] Catch unauthorised errors
+app.use(function (err, req, res, next) {
+  if (err.name === 'UnauthorizedError') {
+    res.status(401);
+    res.json({"message" : err.name + ": " + err.message});
+  }
+});
 
