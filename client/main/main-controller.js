@@ -17,9 +17,7 @@
 
         $scope.login = function(){
             auth.login($scope.user)
-                .catch(function(err){
-                throw err.mesage
-            }).then(function(){
+                .then(function(){
                 $location.path('/profile')
             })
         }

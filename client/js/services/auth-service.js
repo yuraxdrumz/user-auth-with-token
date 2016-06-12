@@ -45,21 +45,21 @@
                 }).then(function(res){
                     return res.data
                 },function(err){
-                    throw err.status + err.data
+                    throw err.data
                 })
         }
         var updateUser = function(user){
             return $http.post('api/users/update',user).then(function(res){
                 return res.data
             },function(err){
-                throw err.status + err.data
+                throw err.data
             })
         }
         var register = function(user){
             return $http.post('/api/users/register',user).then(function(res){
                 return saveToken(res.data.token)
             }).catch(function(err){
-                throw err.message
+                throw err.data
             })
         }
         var login = function(user){
@@ -67,7 +67,7 @@
                 return saveToken(res.data.token)
 
             }).catch(function(err){
-                throw err.message
+                throw(err.data.message);
             })
         }
         var logout = function() {
