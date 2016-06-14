@@ -9,7 +9,7 @@
                     Authorization: 'Bearer ' + auth.getToken()
                 }
             })
-        }
+        };
         return {
             getProfile : getProfile
         };

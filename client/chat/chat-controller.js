@@ -6,11 +6,11 @@
         $scope.loggedIn = true;
 
         $scope.logout = function(){
-            auth.logout()
-            $location.path('/')
-        }
+            auth.logout();
+            $location.path('/');
+        };
 
-        $scope.user = auth.currentUser()
+        $scope.user = auth.currentUser();
         $scope.message = '';
         $scope.filterText = '';
         $scope.messages = [];
@@ -24,7 +24,7 @@
         socket.on('pastMessages',function(data){
             $scope.messages = data.reverse();
             $scope.$apply();
-        })
+        });
         $scope.sendMessage = function(){
             if ($scope.user.name == '') {
                 window.alert('Choose a username');
@@ -35,11 +35,11 @@
                 var chatMessage = {
                     username:$scope.user.name,
                     message:$scope.message
-                }
+                };
 
                 MessageCreator.postMessage(chatMessage,function(result,err){
                 if(err){
-                    window.alert('error saving to db')
+                    window.alert('error saving to db');
                     return
                 }
                 $scope.message = '';
@@ -52,4 +52,4 @@
     }
 
     }])
-})()
+})();

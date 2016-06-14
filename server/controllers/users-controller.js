@@ -14,7 +14,7 @@ var self = module.exports = {
 
         user.setPassword(req.body.password);
 
-        user.save()
+        user.save();
         var token;
         token = user.generateJwt();
             res.status(200);
@@ -49,13 +49,13 @@ var self = module.exports = {
     update:function(req, res){
         var username = req.body.name;
         var userId = req.body._id;
-        var email = req.body.email
+        var email = req.body.email;
         User.findById(userId,function(err, result){
             var user = result;
             user.name = username;
-            user.email = email
+            user.email = email;
             user.save();
-            token = user.generateJwt()
+            var token = user.generateJwt();
             res.json({
                 "token":token
             })
@@ -63,21 +63,21 @@ var self = module.exports = {
     },
     profilePic:function(req, res){
         var file = req.files.file;
-        var userId = req.body.userId
+        var userId = req.body.userId;
         var uploadDate = new Date();
         uploadDate = uploadDate.toDateString();
 
         User.findById(userId,function(err, result){
-            var user = result
+            var user = result;
             var savePath = '/uploads/' + userId  + uploadDate + file.name;
-            var tempPath = file.path
+            var tempPath = file.path;
             var targetPath = path.join(__dirname,"../../uploads/" + userId + uploadDate + file.name);
 
             fs.rename(tempPath,targetPath,function(err){
                 if(err){
                     console.log(err)
                 }else{
-                    user.image = savePath
+                    user.image = savePath;
                     user.save(function(err){
                         if(err){
                             res.json({status:500})
@@ -92,7 +92,7 @@ var self = module.exports = {
             })
         })
     }
-}
+};
 
 
 

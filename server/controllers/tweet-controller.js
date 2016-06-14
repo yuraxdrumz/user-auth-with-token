@@ -28,7 +28,7 @@ var self = module.exports = {
                         }else{
                             Tweet.findById(req.params.id,function(err, result){
                                 result.likes +=1;
-                                result.save()
+                                result.save();
                                 res.json(result)
                             })
                         }
@@ -49,7 +49,7 @@ var self = module.exports = {
                         }else{
                             Tweet.findById(req.params.id,function(err, result){
                                 result.likes -=1;
-                                result.save()
+                                result.save();
                                 res.json(result)
                             })
                         }
@@ -58,5 +58,5 @@ var self = module.exports = {
             }
         })
     }
-}
+};
 
