@@ -31,7 +31,7 @@
                 return{
                     email:payload.email,
                     name:payload.name,
-                    userId:payload._id,
+                    _id:payload._id,
                     image:payload.image
                 }
             }
@@ -43,15 +43,15 @@
                 data:{userId:userId},
                 file:file
                 }).then(function(res){
-                    return res.data
-                },function(err){
+                return saveToken(res.data.token)
+                }).catch(function(err){
                     throw err.data
                 })
         }
         var updateUser = function(user){
             return $http.post('api/users/update',user).then(function(res){
-                return res.data
-            },function(err){
+                return saveToken(res.data.token)
+            }).catch(function(err){
                 throw err.data
             })
         }
@@ -81,7 +81,8 @@
             register : register,
             login : login,
             logout : logout,
-            uploadPhoto:uploadPhoto
+            uploadPhoto:uploadPhoto,
+            updateUser:updateUser
         };
     }])
 })()

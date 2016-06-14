@@ -76,7 +76,7 @@ app.post('/message',function(req, res){
     message.save(function(err, saved){
         if(err){
             res.send(400)
-            return console.log('error saveing to db')
+            return console.log('error saving to db')
         }
         res.send(saved);
         io.sockets.emit('receiveMessage',saved);

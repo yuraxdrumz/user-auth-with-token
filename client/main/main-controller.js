@@ -33,7 +33,7 @@
                 if(event.keyCode === 13){
                     var request = {
                         user:$scope.user.name || $scope.user.email,
-                        userId: $scope.user.userId,
+                        userId: $scope.user._id,
                         userImage:$scope.user.image,
                         content: $scope.newTweet,
                         likes:0
@@ -58,7 +58,7 @@
 
         $scope.isLiked = function(tweet){
             for(var i=0,len=$scope.tweets[$scope.tweets.indexOf(tweet)].likeFromUser.length;i<len;i++){
-                if($scope.tweets[$scope.tweets.indexOf(tweet)].likeFromUser[i] == $scope.user.userId){
+                if($scope.tweets[$scope.tweets.indexOf(tweet)].likeFromUser[i] == $scope.user._id){
                     return true
                 }else{
                     if($scope.tweets[$scope.tweets.indexOf(tweet)].likeFromUser[i] == undefined){

@@ -16,7 +16,6 @@ var self = module.exports = {
         self.getAllTweets(req,res)
     },
     like:function(req, res){
-        console.log(req.params.userId)
         Tweet.find({$and:[{_id:req.params.id},{likeFromUser:req.params.userId}]},function(err, check){
             if(err){
                 console.log(err)

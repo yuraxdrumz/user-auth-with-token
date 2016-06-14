@@ -11,9 +11,22 @@
             $scope.loggedIn = true
         })
         $scope.logout = function(){
-            auth.logout()
+            auth.logout();
+            $scope.loggedIn = false;
             $location.path('/')
+        }
+        $scope.changeInfo = function () {
+            auth.updateUser($scope.user).then(function (res) {
+                if($scope.file){
+                    auth.uploadPhoto($scope.file,$scope.user._id).then(function (res) {
+                        $scope.user = auth.currentUser()
+                        console.log($scope.user)
 
+                    })
+                }
+                $scope.user = auth.currentUser()
+                console.log($scope.user)
+            })
         }
 
 

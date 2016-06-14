@@ -27,6 +27,11 @@
             templateUrl:'client/chat/chat.html',
             controller:'chatController'
         })
+            .state('users',{
+                url:'/all-users',
+                templateUrl:'client/all-users/all-users.html',
+                controller:'allController'
+            })
 
     }
       angular

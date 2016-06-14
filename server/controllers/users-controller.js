@@ -47,20 +47,17 @@ var self = module.exports = {
         })(req, res);
     },
     update:function(req, res){
-        var username = req.body.username;
+        var username = req.body.name;
         var userId = req.body._id;
         var email = req.body.email
-
         User.findById(userId,function(err, result){
             var user = result;
-            user.username = username;
+            user.name = username;
             user.email = email
             user.save();
+            token = user.generateJwt()
             res.json({
-                username:user.username,
-                _id:user._id,
-                email:user.email,
-                image:user.image
+                "token":token
             })
         });
     },
@@ -72,10 +69,9 @@ var self = module.exports = {
 
         User.findById(userId,function(err, result){
             var user = result
-            console.log(user)
-            var savePath = '/uploads/' + user._id  + uploadDate + file.name;
+            var savePath = '/uploads/' + userId  + uploadDate + file.name;
             var tempPath = file.path
-            var targetPath = path.join(__dirname,"../../uploads/" + user._id + uploadDate + file.name);
+            var targetPath = path.join(__dirname,"../../uploads/" + userId + uploadDate + file.name);
 
             fs.rename(tempPath,targetPath,function(err){
                 if(err){
@@ -86,7 +82,10 @@ var self = module.exports = {
                         if(err){
                             res.json({status:500})
                         }else{
-                            res.json(user.image)
+                            var token = user.generateJwt();
+                            res.json({
+                                "token":token
+                            })
                         }
                     });
                 }
