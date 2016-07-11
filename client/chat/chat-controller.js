@@ -26,11 +26,6 @@
             $scope.$apply();
         });
         $scope.sendMessage = function(){
-            if ($scope.user.name == '') {
-                window.alert('Choose a username');
-                return;
-            }
-
             if (!$scope.message == '') {
                 var chatMessage = {
                     username:$scope.user.name,

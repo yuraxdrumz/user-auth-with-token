@@ -24,13 +24,10 @@
                 if($scope.file){
                     auth.uploadPhoto($scope.file,$scope.user._id).then(function (res) {
                         $scope.user = auth.currentUser()
-
                     })
                 }
                 $scope.user = auth.currentUser()
             })
         }
-
-
     }])
 })();

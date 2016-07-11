@@ -8,15 +8,19 @@ var bodyParser           = require('body-parser');
 var passport             = require('passport');
 var jwt                  = require('express-jwt');
 var multiparty           = require('connect-multiparty');
+
 var multipartyMiddleware = multiparty();
 
 // controllers
 var tweetController      = require('./server/controllers/tweet-controller');
-var UserCtrl             = require('./server/controllers/users-controller');
+var userCtrl             = require('./server/controllers/users-controller');
 var Message              = require('./server/models/messages');
 var ctrl                 = require('./server/controllers/profile');
                            require('./server/config/passport');
 var socketio             = require('socket.io');
+
+
+
 
 // authentication middleware for user
 var auth = jwt({
@@ -32,28 +36,32 @@ mongoose.connect('mongodb://localhost:27017/user-login');
 
 app.use(morgan('dev'));
 app.use(bodyParser.json());
+app.use(multipartyMiddleware);
+app.use(passport.initialize());
 app.use('/client',express.static(__dirname + '/client'));
 app.use('/node_modules',express.static(__dirname + '/node_modules'));
 app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
-app.use(multipartyMiddleware);
-app.use(passport.initialize());
 
-app.get('/api/profile',auth,ctrl.profileRead);
+
+
 
 
 //main page
 app.get('/',function(req, res){
+
     res.sendFile(__dirname + '/index.html')
 });
 
-
+//profile
+app.get('/api/profile',auth,ctrl.profileRead);
+app.post('/api/profile/editPhoto',multipartyMiddleware,userCtrl.profilePic);
 
 //users
-app.post('/api/users/register', UserCtrl.register);
-app.post('/api/users/login', UserCtrl.login);
-app.post('/api/users/update', UserCtrl.update);
-app.post('/api/profile/editPhoto',multipartyMiddleware,UserCtrl.profilePic);
+app.post('/api/users/register', userCtrl.register);
+app.post('/api/users/login', userCtrl.login);
+app.post('/api/users/update', userCtrl.update);
+
 
 
 //tweets

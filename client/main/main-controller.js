@@ -26,6 +26,7 @@
         //logout function
         $scope.logout = function(){
             auth.logout();
+            $scope.isLoggedIn = false;
             $location.path('/');
         };
         //send tweet on enter
