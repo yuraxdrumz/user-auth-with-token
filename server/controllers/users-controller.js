@@ -63,6 +63,7 @@ var self = module.exports = {
     },
     profilePic:function(req, res){
         var file = req.files.file;
+        console.log(file)
         var userId = req.body.userId;
         var uploadDate = new Date();
         uploadDate = uploadDate.toDateString();

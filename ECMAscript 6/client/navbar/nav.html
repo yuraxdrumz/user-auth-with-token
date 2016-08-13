@@ -1,0 +1,24 @@
+   <div class="container-fluid">
+    <div class="navbar-header">
+        <a class="navbar-brand" ui-sref='main'>Home</a>
+    </div>
+    <ul class="nav navbar-nav" ng-show='loggedIn'>
+
+        <li>
+            <a ui-sref='chat'>Chat</a>
+        </li>
+        <li>
+            <a ui-sref="users">Users</a>
+        </li>
+        <li class="dropdown">
+                  <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img ng-src='{{user.image}}' style="height:20px;width:20px;"> {{user.name}} <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a ui-sref='profile'>View Profile</a></li>
+                    <li><a ui-sref='profile'>Change Information</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a ng-click='logout()'>Logout</a></li>
+                  </ul>
+        </li>
+
+       </ul>
+</div>

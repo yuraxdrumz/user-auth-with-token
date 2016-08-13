@@ -1,6 +1,6 @@
 (function(){
     angular.module('myApp')
-    .service('auth',['$http','$window','Upload',function($http,$window,Upload){
+    .factory('auth',['$http','$window','Upload',function($http,$window,Upload){
         //set token
         var saveToken = function(token){
             $window.localStorage['mean-token'] = token;

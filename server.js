@@ -1,6 +1,6 @@
 var express              = require('express');
 var app                  = express();
-var http                 = require('http');
+var http                 = require('http').Server(app);
 var path                 = require('path');
 var morgan               = require('morgan');
 var mongoose             = require('mongoose');
@@ -16,9 +16,8 @@ var tweetController      = require('./server/controllers/tweet-controller');
 var userCtrl             = require('./server/controllers/users-controller');
 var Message              = require('./server/models/messages');
 var ctrl                 = require('./server/controllers/profile');
-                           require('./server/config/passport');
-var socketio             = require('socket.io');
-
+                           require('./server/config/passport')(passport);
+var io                   = require('socket.io')(http);
 
 
 
@@ -74,50 +73,16 @@ app.delete('/api/tweets/:id/:userId/unlike',tweetController.unlike);
 //set port
 app.set('port', process.env.PORT || 3000);
 
-//chat with socket.io
-app.post('/message',function(req, res){
-    var message = new Message({
-        username:req.body.username,
-        message:req.body.message
-    });
 
-    message.save(function(err, saved){
-        if(err){
-            res.send(400);
-            return console.log('error saving to db')
-        }
-        res.send(saved);
-        io.sockets.emit('receiveMessage',saved);
-    })
-});
-
-
-app.get('/message',function(req, res){
-    Message.find(function(err, allMessages){
-        if(err){
-            return res.send(err)
-        }
-        res.send(allMessages)
-    })
-});
 
 //create server
-var server = http.createServer(app).listen(app.get('port'),function(){
+var server = http.listen(app.get('port'),function(){
     console.log('Express server listening on port ' + app.get('port'))
 });
 
-// listens to the server
-var io = socketio.listen(server);
+// socket.io
+var sockets = require('./server/controllers/sockets')(io,app);
 
-//find all messages on connection
-io.sockets.on('connection',function(socket){
-    Message.find(function(err, allMessages){
-        if(err){
-            return console.error(err)
-        }
-        socket.emit('pastMessages', allMessages)
-    })
-});
 
 // error handlers
 
